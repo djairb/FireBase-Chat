@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3b9eea"
+    tools:context=".MenuActivity"
+    tools:layout_editor_absoluteY="81dp">
+
+    <Button
+        android:id="@+id/botaoChatId"
+        android:layout_width="111dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="218dp"
+        android:layout_marginBottom="72dp"
+        android:background="#fff589"
+        android:text="CHAT"
+        android:textColor="#3c9fea"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/botaoListaPessoasId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/botaoListaPessoasId"
+        android:layout_width="111dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="125dp"
+        android:background="#fff589"
+        android:text="PESSOAS"
+        android:textColor="#3c9fea"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botaoChatId" />
+
+</android.support.constraint.ConstraintLayout>
