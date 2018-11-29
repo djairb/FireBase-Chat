@@ -17,10 +17,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ListaPessoasActivity extends AppCompatActivity {
+public class ListaChatActivity extends AppCompatActivity {
 
     private ArrayList<Usuario> usuarios = new ArrayList<>();
+    private ArrayList<String> minhasConversas = new ArrayList<>();
     private ArrayAdapter adapter;
     private DatabaseReference databaseReference;
     private DatabaseReference databaseReferenceConversa;
@@ -30,28 +33,34 @@ public class ListaPessoasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_pessoas);
+        setContentView(R.layout.activity_lista_chat);
+
+        auxiliar = new Auxiliar(getApplicationContext());
 
         listaUsuario = findViewById(R.id.listaUsuariosId);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Usuarios");
-        //databaseReferenceConversa = databaseReference.child("Mensagens").child(auxiliar.retornarCpfUsuarioLogado());
-        auxiliar = new Auxiliar(getApplicationContext());
-        
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReferenceConversa = FirebaseDatabase.getInstance().getReference().child("mensagens").child(auxiliar.retornarCpfUsuarioLogado());
+
+
+        databaseReferenceConversa.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                usuarios.clear();
-                
+                minhasConversas.clear();
+
                 for(DataSnapshot dados:dataSnapshot.getChildren()){
-                    
-                    Usuario usuario = dados.getValue(Usuario.class);
-                    addUsuarioLista(usuario);
-                    
-                    
-                    
+
+                    //Map<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+
+                    //String a = dados.getKey();
+
+                    //int b = 4;
+
+                    String valor = dados.getKey();
+                    addUsuarioCpfLista(valor);
                 }
 
-                setAdapter();
+                carregarLista();
+
             }
 
             @Override
@@ -60,6 +69,9 @@ public class ListaPessoasActivity extends AppCompatActivity {
             }
         });
 
+
+
+
         listaUsuario.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,7 +79,7 @@ public class ListaPessoasActivity extends AppCompatActivity {
                 if(usuario.getCpf().equals(auxiliar.retornarCpfUsuarioLogado())){
                     Toast.makeText(getApplicationContext(), "É vc bro", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(ListaPessoasActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(ListaChatActivity.this, ChatActivity.class);
 
                     // recupera dados a serem passados
 
@@ -98,9 +110,43 @@ public class ListaPessoasActivity extends AppCompatActivity {
 
     }
 
+    private void carregarLista() {
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                usuarios.clear();
+
+                for(DataSnapshot dados:dataSnapshot.getChildren()){
+
+                    Usuario usuario = dados.getValue(Usuario.class);
+                    if(minhasConversas.contains(usuario.getCpf())){
+                        addUsuarioLista(usuario);
+                    }
+
+
+
+
+                }
+
+                setAdapter();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void addUsuarioLista(Usuario usuario) {
         this.usuarios.add(usuario);
+    }
+
+    private void addUsuarioCpfLista(String cpf) {
+        this.minhasConversas.add(cpf);
     }
 
     private void setAdapter() {

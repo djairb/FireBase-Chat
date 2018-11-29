@@ -19,7 +19,8 @@
         <activity android:name=".AddPessoaActivity" />
         <activity android:name=".ListaPessoasActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".ListaChatActivity"></activity>
     </application>
 
 </manifest>

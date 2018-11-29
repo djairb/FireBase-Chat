@@ -26,6 +26,15 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         });
+
+        botaoChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this,ListaChatActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
 
