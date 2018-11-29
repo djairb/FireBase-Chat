@@ -70,6 +70,7 @@ public class ChatActivity extends AppCompatActivity {
                     mensagems.add( mensagem );
                 }
                 adapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
 
 
 
@@ -148,4 +149,14 @@ public class ChatActivity extends AppCompatActivity {
 
 
     }
+    private void scrollMyListViewToBottom() {
+        listaChat.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                listaChat.setSelection(listaChat.getCount() - 1);
+            }
+        });
+    }
+
 }
